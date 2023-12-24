@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
   export default function Product() {
     const dispatch  = useDispatch()
     const {data:products,status}  = useSelector((state)=>state.product)
-    console.log(products)
-
 
     useEffect(()=>{
        dispatch(fetchProducts())
@@ -25,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux'
        <div className="flex flex-wrap justify-between">
  
 
-      {
+       {
         products.map((product)=>{
           return (
             <div key={product._id} className="mx-auto overflow-hidden duration-300 transform bg-white rounded-lg shadow-md mt-11 w-80 dark:bg-slate-800 hover:scale-105 hover:shadow-lg">
