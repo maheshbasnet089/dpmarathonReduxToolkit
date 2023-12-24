@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { fetchProducts } from '../../../store/cartSlice'
+import { fetchProducts } from '../../../store/productSlice'
 import { useDispatch, useSelector } from 'react-redux'
   
   export default function Product() {
@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from 'react-redux'
       {
         products.map((product)=>{
           return (
-            <div className="mx-auto overflow-hidden duration-300 transform bg-white rounded-lg shadow-md mt-11 w-80 dark:bg-slate-800 hover:scale-105 hover:shadow-lg">
+            <div key={product._id} className="mx-auto overflow-hidden duration-300 transform bg-white rounded-lg shadow-md mt-11 w-80 dark:bg-slate-800 hover:scale-105 hover:shadow-lg">
             <img className="object-cover object-center w-full h-48" src={product.productImage} alt="Product Image" />
             <div className="p-4">
               <h2 className="mb-2 text-lg font-medium text-gray-900 dark:text-white">{product.productName}</h2>

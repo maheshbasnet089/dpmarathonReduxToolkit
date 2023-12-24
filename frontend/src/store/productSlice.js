@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import axios from 'axios'
 
 const STATUSES = Object.freeze({
     SUCCESS : 'success',
@@ -19,6 +20,7 @@ const productSlice = createSlice({
     },
     reducers : {
         setProduct(state,action){
+         
             state.data = action.payload
         },
         setStatus(state,action){
@@ -29,3 +31,19 @@ const productSlice = createSlice({
 
 export const {setProduct,setStatus} = productSlice.actions
 export default productSlice.reducer
+
+export function fetchProducts(){
+    return async function fetchProductsThunk(dispatch){
+        dispatch(setStatus(STATUSES.LOADING))
+        try {
+            
+        const response = await axios.get('http://localhost:3000/api/products')
+        dispatch(setProduct(response.data.data))
+        dispatch(setStatus(STATUSES.SUCCESS))
+      
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR))
+            
+        }
+    }
+}
