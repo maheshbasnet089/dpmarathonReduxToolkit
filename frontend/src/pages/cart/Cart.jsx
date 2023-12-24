@@ -5,7 +5,7 @@ import { deleteCartItem, updateCartItem } from '../../store/cartSlice'
 const Cart = () => {
   const dispatch = useDispatch()
   const {items} = useSelector((state)=>state.cart)
-  console.log(items)
+
  const totalItemsInCart = items.reduce((total,item)=>item.quantity + total, 0)
  const totalAmountOfCartItems = items.reduce((amount,item)=> item.quantity * item.product.productPrice + amount,0)
  const shippingValue = 100
