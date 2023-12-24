@@ -28,11 +28,17 @@ const cartSlice = createSlice({
         deleteItem(state,action){
             const index = state.items.findIndex(item=>item._id === action.payload.cartId)
             state.items.splice(index,1)
+        },
+        updateItem(state,action){
+            const index = state.items.findIndex(item=>item.product._id === action.payload.productId)
+            if(index !== -1){
+                state.items[index].quantity = action.payload.quantity
+            }
         }
     }
 })
 
-export const {setItem,setStatus,deleteItem} = cartSlice.actions
+export const {setItem,setStatus,deleteItem,updateItem} = cartSlice.actions
 export default cartSlice.reducer
 
 
@@ -71,6 +77,20 @@ export function deleteCartItem(cartId){
         try {
             const response = await APIAuthenticated.delete(`/cart/${cartId}`)
             dispatch(deleteItem({cartId}))
+        } catch (error) {
+        dispatch(setStatus(STATUSES.ERROR))
+            
+        }
+    }
+}
+
+export function updateCartItem(productId,quantity){
+    return async function updateCartItem(dispatch){
+        dispatch(setStatus(STATUSES.LOADING))
+        try {
+            const response = await APIAuthenticated.patch(`/cart/${productId}`,{quantity})
+            dispatch(updateItem({productId,quantity}))
+            dispatch(setStatus(STATUSES.SUCCESS))
         } catch (error) {
         dispatch(setStatus(STATUSES.ERROR))
             

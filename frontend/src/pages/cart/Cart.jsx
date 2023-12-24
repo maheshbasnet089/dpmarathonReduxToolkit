@@ -1,6 +1,6 @@
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { deleteCartItem } from '../../store/cartSlice'
+import { deleteCartItem, updateCartItem } from '../../store/cartSlice'
 
 const Cart = () => {
   const dispatch = useDispatch()
@@ -13,6 +13,9 @@ const Cart = () => {
 
  const handleDelete = (cartId) =>{
   dispatch(deleteCartItem(cartId))
+ }
+ const handleQuantityChange = (productId,quantity)=>{
+  dispatch(updateCartItem(productId,quantity))
  }
  
   return (
@@ -33,9 +36,9 @@ const Cart = () => {
               </div>
               <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                 <div className="flex items-center border-gray-100">
-                  <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
+                  <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50" onClick={()=>handleQuantityChange(item.product._id, item.quantity - 1)}> - </span>
                   <input className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value={item.quantity} min="1" />
-                  <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
+                  <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50" onClick={()=>handleQuantityChange(item.product._id, item.quantity + 1)} > + </span>
                 </div>
                 <div className="flex items-center space-x-4">
                   <p className="text-sm">{item.product.productPrice}</p>

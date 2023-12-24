@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { fetchProducts } from '../../../store/productSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../../../store/cartSlice'
+import { STATUSES } from '../../../store/statuses'
   
   export default function Product() {
     const dispatch  = useDispatch()
@@ -16,6 +17,9 @@ import { addToCart } from '../../../store/cartSlice'
 
     const handleCart = (productId)=>{
       dispatch(addToCart(productId))
+    }
+    if(status === STATUSES.LOADING){
+      return <h1>Loading...</h1>
     }
 
     return (
