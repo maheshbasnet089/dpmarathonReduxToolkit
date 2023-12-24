@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Cart = () => {
+ 
   return (
 
   <div className="h-screen bg-gray-100 pt-20">
