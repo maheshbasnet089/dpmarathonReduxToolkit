@@ -1,9 +1,18 @@
+import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
+import { fetchCartItems } from "../../../store/cartSlice"
+import { useEffect } from "react"
 
 
 
 export default function Navbar() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const {items}  = useSelector((state)=>state.cart)
+    console.log(items)
+    useEffect(()=>{
+        dispatch(fetchCartItems())
+    },[])
 
   return (
     <>
@@ -24,16 +33,20 @@ export default function Navbar() {
                     </div>
     
                     <div className="flex-wrap items-center justify-end hidden w-full p-6 space-y-6 bg-white lg:flex rounded-xl md:space-y-0 md:p-0 md:flex-nowrap md:bg-transparent lg:w-7/12">
-                        <div className="text-gray-600 lg:pr-4">
+                     {
+                        items.length !== 0 && (
+                            <div className="text-gray-600 lg:pr-4">
                             <ul className="space-y-6 text-sm font-medium tracking-wide md:flex md:space-y-0">
     
                                 <li>
                                     <Link to="/cart" className="block transition md:px-4 hover:text-yellow-700">
-    <span>Cart <sup>2</sup> </span>
+    <span>Cart <sup>{items.length}</sup> </span>
                                     </Link>
                                 </li>
                             </ul>
                         </div>
+                        )
+                     }
     
                         <div className="w-full space-y-2 border-yellow-200 lg:space-y-0 md:w-max lg:border-l">
                             <button type="button" title="Start buying" className="w-full px-6 py-3 text-center transition rounded-full active:bg-yellow-200 focus:bg-yellow-100 sm:w-max" onClick={()=>navigate('/register')}>

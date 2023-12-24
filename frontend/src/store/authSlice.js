@@ -10,7 +10,7 @@ const authSlice = createSlice({
     name : 'auth',
     initialState : {
        data : [],
-       status : STATUSES.LOADING,
+       status : STATUSES.SUCCESS,
        token : null
        
     },

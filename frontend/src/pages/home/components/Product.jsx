@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { fetchProducts } from '../../../store/productSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { addToCart } from '../../../store/cartSlice'
   
   export default function Product() {
     const dispatch  = useDispatch()
@@ -12,6 +13,10 @@ import { useDispatch, useSelector } from 'react-redux'
     useEffect(()=>{
        dispatch(fetchProducts())
     },[])
+
+    const handleCart = (productId)=>{
+      dispatch(addToCart(productId))
+    }
 
     return (
 <div className="relative w-full">
@@ -33,7 +38,7 @@ import { useDispatch, useSelector } from 'react-redux'
               <p className="mb-2 text-base text-gray-700 dark:text-gray-300">{product.productDescription}</p>
               <div className="flex items-center">
                 <p className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">{product.productPrice}</p>
-                <button className="px-4 py-2 mx-6 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-600">
+                <button onClick={()=>handleCart(product._id)} className="px-4 py-2 mx-6 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-600">
       Add to Cart
     </button>
               </div>

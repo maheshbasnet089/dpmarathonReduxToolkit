@@ -10,7 +10,7 @@ const productSlice = createSlice({
     name : 'product',
     initialState : {
        data : [],
-       status : STATUSES.LOADING,
+       status : STATUSES.SUCCESS,
        
     },
     reducers : {
