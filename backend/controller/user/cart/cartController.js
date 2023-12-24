@@ -30,7 +30,7 @@ exports.addToCart = async(req,res)=>{
         })
     }
     await user.save()
-    const updatedUser = await User.findById(userId)
+    const updatedUser = await User.findById(userId).populate('cart.product')
     res.status(200).json({
         message: "Product added to cart",
         data : updatedUser.cart
@@ -41,7 +41,7 @@ exports.addToCart = async(req,res)=>{
 exports.getMyCartItems = async(req,res)=>{
     const userId = req.user.id 
     const userData = await User.findById(userId).populate({
-        path : "cart",
+        path : "cart.product",
         select : "-productStatus"
     }) 
    
@@ -56,22 +56,45 @@ exports.deleteItemFromCart = async(req,res)=>{
     // const {productIds} = req.body 
     const userId = req.user.id
     // check if that product exists or not
-    const product = await Product.findById(productId)
-    if(!product){
-        return res.status(404).json({
-            message : "No product with that productId"
-        })
-    }
+    // const product = await Product.findById(productId)
+    // if(!product){
+    //     return res.status(404).json({
+    //         message : "No product with that productId"
+    //     })
+    // }
     // get user cart
     const user = await User.findById(userId)
 //     productIds.forEach(productIdd=>{
 //   user.cart =   user.cart.filter(pId=>pId != productIdd) // [1,2,3] ==> 2 ==>fiter ==> [1,3] ==> user.cart = [1,3]
 
 //     })
-user.cart =   user.cart.filter(pId=>pId != productId) // [1,2,3] ==> 2 ==>fiter ==> [1,3] ==> user.cart = [1,3]
+user.cart =   user.cart.filter(item=>item._id != productId) // [1,2,3] ==> 2 ==>fiter ==> [1,3] ==> user.cart = [1,3]
 
   await user.save()
   res.status(200).json({
     message : "Item removed From Cart"
   })
+}
+
+exports.updateCartItem = async(req,res)=>{
+    const userId = req.user.id 
+    const {productId} = req.params 
+    const {quantity} = req.body
+
+    const user = await User.findById(userId)
+    const cartItem = user.cart.find((item)=>item.product.equals(productId))
+    if(!cartItem){
+        res.status(404).json({
+            message : "No item with that productId in the cart"
+
+        })
+
+    }
+    cartItem.quantity = quantity 
+    await user.save()
+    res.status(200).json({
+        mesage : "Item updated successfully",
+        data : user.cart
+    })
+
 }
