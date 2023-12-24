@@ -1,12 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import axios from 'axios'
-
-const STATUSES = Object.freeze({
-    SUCCESS : 'success',
-    ERROR : 'error',
-    LOADING : 'loading'
-})
-
+import { STATUSES } from './statuses'
+import { API } from '../http'
 
 
 
@@ -45,7 +40,7 @@ export const {setProduct,setStatus} = productSlice.actions
 export default productSlice.reducer
 
 export const fetchProducts = createAsyncThunk('products/fetch',async()=>{
-    const response = await axios.get('http://localhost:3000/api/products')
+    const response = await API.get('products')
     const data = response.data.data 
     return data 
 })
