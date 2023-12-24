@@ -1,8 +1,12 @@
 
 
-
+import axios from 'axios'
   
   export default function Product() {
+
+    const fetchProducts = async()=>{
+      const response = await axios.get("")
+    }
 
     return (
 <div className="relative w-full">

@@ -52,7 +52,7 @@ exports.deleteProduct =  async(req,res)=>{
  
     const oldProductImage = oldData.productImage // http://localhost:3000/1698943267271-bunImage.png"
     const lengthToCut  = process.env.BACKEND_URL.length
-    const finalFilePathAfterCut = oldProductImage?.slice(lengthToCut) 
+    const finalFilePathAfterCut = oldProductImage && oldProductImage.slice(lengthToCut) 
          // REMOVE FILE FROM UPLOADS FOLDER
             fs.unlink("./uploads/" +  finalFilePathAfterCut,(err)=>{
                 if(err){
